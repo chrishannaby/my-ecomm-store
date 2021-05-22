@@ -58,6 +58,16 @@ export function useCartState() {
     });
   }
 
+  function updateItem({ id, quantity } = {}) {
+    setCart((prev) => {
+      let cartState = { ...prev };
+      if (cartState.products[id]) {
+        cartState.products[id].quantity = quantity;
+      }
+      return cartState;
+    });
+  }
+
   function checkout() {
     initiateCheckout({
       lineItems: cartItems.map((item) => {
@@ -75,6 +85,7 @@ export function useCartState() {
     addToCart,
     checkout,
     cartItems,
+    updateItem,
   };
 }
 

@@ -27,11 +27,30 @@ const columns = [
 import products from "../products.json";
 
 export default function Home() {
-  const { cartItems, checkout } = useCart();
+  const { cartItems, checkout, updateItem } = useCart();
   const data = cartItems.map((item) => {
     const product = products.find(({ id }) => id === item.id);
+
+    const Quantity = () => {
+      return (
+        <input
+          name="quantity"
+          type="number"
+          min={0}
+          value={item.quantity}
+          onChange={(e) => {
+            updateItem({
+              id: item.id,
+              quantity: parseInt(e.target.value),
+            });
+          }}
+        />
+      );
+    };
+
     return {
       ...item,
+      quantity: <Quantity />,
       title: product.title,
       total: item.pricePerItem * item.quantity,
     };
