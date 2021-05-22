@@ -1,11 +1,12 @@
+import { useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 import products from "../products.json";
-import { initiateCheckout } from "../lib/payments.js";
+import { useCart } from "../hooks/useCart.js";
 
 export default function Home() {
+  const { subtotal, totalItems, addToCart, checkout } = useCart();
   return (
     <div className={styles.container}>
       <Head>
@@ -34,18 +35,9 @@ export default function Home() {
                   <p>
                     <button
                       className={styles.button}
-                      onClick={() =>
-                        initiateCheckout({
-                          lineItems: [
-                            {
-                              price: id,
-                              quantity: 1,
-                            },
-                          ],
-                        })
-                      }
+                      onClick={() => addToCart(product)}
                     >
-                      Buy Now
+                      Add to Cart
                     </button>
                   </p>
                 </a>
@@ -54,19 +46,6 @@ export default function Home() {
           })}
         </ul>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
