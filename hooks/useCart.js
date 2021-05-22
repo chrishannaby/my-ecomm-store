@@ -11,7 +11,6 @@ const defaultCart = {
 };
 
 export const CartContext = createContext();
-
 export function useCartState() {
   const [cart, setCart] = useState(defaultCart);
 
@@ -75,6 +74,7 @@ export function useCartState() {
     totalItems,
     addToCart,
     checkout,
+    cartItems,
   };
 }
 

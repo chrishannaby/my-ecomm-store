@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 import products from "../products.json";
@@ -27,20 +28,22 @@ export default function Home() {
             const { title, description, image, price, id } = product;
             return (
               <li key={id} className={styles.card}>
-                <a href="#">
-                  <img src={image} alt={title} />
-                  <h2>{title}</h2>
-                  <p>${price}</p>
-                  <p>{description}</p>
-                  <p>
-                    <button
-                      className={styles.button}
-                      onClick={() => addToCart(product)}
-                    >
-                      Add to Cart
-                    </button>
-                  </p>
-                </a>
+                <Link href={`/products/${id}`}>
+                  <a>
+                    <img src={image} alt={title} />
+                    <h2>{title}</h2>
+                    <p>${price}</p>
+                    <p>{description}</p>
+                    <p>
+                      <button
+                        className={styles.button}
+                        onClick={() => addToCart(product)}
+                      >
+                        Add to Cart
+                      </button>
+                    </p>
+                  </a>
+                </Link>
               </li>
             );
           })}
