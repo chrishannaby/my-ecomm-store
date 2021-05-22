@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 import products from "../products.json";
-import image from "next/image";
+import { initiateCheckout } from "../lib/payments.js";
 
 export default function Home() {
   return (
@@ -31,6 +31,23 @@ export default function Home() {
                   <h2>{title}</h2>
                   <p>${price}</p>
                   <p>{description}</p>
+                  <p>
+                    <button
+                      className={styles.button}
+                      onClick={() =>
+                        initiateCheckout({
+                          lineItems: [
+                            {
+                              price: id,
+                              quantity: 1,
+                            },
+                          ],
+                        })
+                      }
+                    >
+                      Buy Now
+                    </button>
+                  </p>
                 </a>
               </li>
             );
