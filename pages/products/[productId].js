@@ -10,7 +10,7 @@ export default function Product({ product = {} }) {
   const { addToCart } = useCart();
   return (
     <div className={styles.container}>
-      {!product ? (
+      {!id ? (
         <h1>Loading</h1>
       ) : (
         <>
