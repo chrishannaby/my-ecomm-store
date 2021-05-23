@@ -5,40 +5,46 @@ import products from "../../products.json";
 
 import { useCart } from "../../hooks/useCart.js";
 
-export default function Product({ product }) {
+export default function Product({ product = {} }) {
   const { id, title, description, image, price } = product;
   const { addToCart } = useCart();
   return (
     <div className={styles.container}>
-      <Head>
-        <title>{title} - Space Jelly</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      {!product ? (
+        <h1>Loading</h1>
+      ) : (
+        <>
+          <Head>
+            <title>{title} - Space Jelly</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
 
-      <main className={styles.main}>
-        <div className={styles.productImage}>
-          <img src={image} alt={title} />
-        </div>
+          <main className={styles.main}>
+            <div className={styles.productImage}>
+              <img src={image} alt={title} />
+            </div>
 
-        <div>
-          <h1>{title}</h1>
+            <div>
+              <h1>{title}</h1>
 
-          <p className={styles.description}>{description}</p>
+              <p className={styles.description}>{description}</p>
 
-          <p className={styles.description}>${price.toFixed(2)}</p>
+              <p className={styles.description}>${price.toFixed(2)}</p>
 
-          <p>
-            <button
-              className={styles.button}
-              onClick={() => {
-                addToCart({ id });
-              }}
-            >
-              Buy
-            </button>
-          </p>
-        </div>
-      </main>
+              <p>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    addToCart({ id });
+                  }}
+                >
+                  Buy
+                </button>
+              </p>
+            </div>
+          </main>
+        </>
+      )}
     </div>
   );
 }
@@ -53,11 +59,13 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const paths = products.map((product) => {
-    return { params: { productId: product.id } };
-  });
+  const paths = products
+    .map((product) => {
+      return { params: { productId: product.id } };
+    })
+    .slice(0, 1);
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
